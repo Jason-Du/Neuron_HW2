@@ -5,6 +5,9 @@ import os
 def weight_update(weight,trainy,learningrate,trainx):
     upadte_weight = weight + (trainy * learningrate *trainx)
     return upadte_weight
+# def weight_update2(weight,trainy,learningrate,trainx):
+#     upadte_weight = weight + (trainy * learningrate *trainx)
+#     return upadte_weight
 def training(trainx,trainy,weight,learningrate,epoch):
     weight_list=[weight]
     passnum=0
@@ -20,16 +23,12 @@ def training(trainx,trainy,weight,learningrate,epoch):
             if (  sign(np.dot(weight_list[-1],single_trainx) )!=sign(single_trainy)):
                 weight_list.append(
                     weight_update(weight=weight_list[-1],trainy=single_trainy,learningrate=learningrate,trainx=single_trainx)   )
-                # os.system('pause')
-                print(i + 1)
-                print('breakpass{}'.format(passnum))
                 break
             else:
                 passnum+=1
-
         if passnum==8:
             print(i + 1)
-            print('jumppass{}'.format(passnum))
+            # print('jumppass{}'.format(passnum))
             break
         passnum = 0
     return weight_list
@@ -44,7 +43,7 @@ if __name__ == '__main__':
     weight=np.array([1,-1,0.2])
     # weight = np.array([-1, -1, 1.2])
 
-    weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=25)
+    weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
 
     f = lambda x: (weight[0]/-weight[1])*x-(weight[2]/weight[1])
     # print(len(weight_list))
@@ -55,8 +54,8 @@ if __name__ == '__main__':
     weight=weight_list[-1]
     plt.plot(graphx,f(graphx), c="orange", label='lastline')
 
-    plt.legend(scatterpoints=1, markerscale=0.2)
-    plt.scatter(x, y, alpha=0.6, label = 'data')
+    plt.legend(scatterpoints=1, markerscale=0.1)
+    plt.scatter(x, y, alpha=0.6, label = 'data',s=10, marker='o')
     plt.xlim(-0.5, 1.2)
     plt.ylim(-0.5, 1.2)
 
