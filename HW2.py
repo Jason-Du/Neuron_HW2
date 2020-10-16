@@ -7,34 +7,31 @@ def weight_update(weight,trainy,learningrate,trainx):
     return upadte_weight
 def training(trainx,trainy,weight,learningrate,epoch):
     weight_list=[weight]
-
     passnum=0
     for i in range(epoch):
-        if i==0:
-            newtrainx=trainx
-            newtrainy=trainy
-        else:
-            per = np.random.permutation(trainx.shape[0])
-            # 打亂後的行號
-            newtrainx = trainx[per, :]
-            # 獲取打亂後的訓練資料
-            newtrainy = trainy[per]
+        passnum = 0
+        per = np.random.permutation(trainx.shape[0])
+        # 打亂後的行號
+        newtrainx = trainx[per, :]
+        # 獲取打亂後的訓練資料
+        newtrainy = trainy[per]
 
         for single_trainx,single_trainy in zip(newtrainx,newtrainy):
             if (  sign(np.dot(weight_list[-1],single_trainx) )!=sign(single_trainy)):
-                print(weight_list[-1])
                 weight_list.append(
                     weight_update(weight=weight_list[-1],trainy=single_trainy,learningrate=learningrate,trainx=single_trainx)   )
-                print('pass{}'.format(passnum))
                 # os.system('pause')
+                print(i + 1)
+                print('breakpass{}'.format(passnum))
                 break
             else:
                 passnum+=1
 
         if passnum==8:
+            print(i + 1)
+            print('jumppass{}'.format(passnum))
             break
-
-        passnum=0
+        passnum = 0
     return weight_list
 
 
@@ -49,24 +46,18 @@ if __name__ == '__main__':
 
     weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=25)
 
-    f = lambda x: (weight[0]/-weight[1])*x+weight[2]
+    f = lambda x: (weight[0]/-weight[1])*x-(weight[2]/weight[1])
+    # print(len(weight_list))
     graphx = np.array([-100, 100])
     plt.plot(graphx, f(graphx), c="red", label='line1')
-
-
-    # colors = "bgrcmykw"
-    for index,single_weight in  enumerate(weight_list):
-        weight=single_weight
-        print(weight)
-        if index != len(weight_list) - 1:
-            pass
-            # plt.plot(graphx, f(graphx), c="green", label='line' + str(index))
-        else:
-            plt.plot(graphx,f(graphx), c="orange", label='line'+str(index))
+    weight = weight_list[1]
+    plt.plot(graphx, f(graphx), c="green", label='line2')
+    weight=weight_list[-1]
+    plt.plot(graphx,f(graphx), c="orange", label='lastline')
 
     plt.legend(scatterpoints=1, markerscale=0.2)
     plt.scatter(x, y, alpha=0.6, label = 'data')
-    plt.xlim(0, 1.2)
-    plt.ylim(0, 1.2)
+    plt.xlim(-0.5, 1.2)
+    plt.ylim(-0.5, 1.2)
 
     plt.show()
