@@ -17,20 +17,6 @@ y=trainx[:,1]
 graphx = np.array([0,100])
 plt.scatter(x, y, alpha=0.6, label = 'data')
 plt.plot(graphx,f(graphx), c="orange", label="LINE1")
-for update_times in range(20):
-    for index,index_x in enumerate(trainx):
-
-        if (  np.dot(index_x, weight)*trainy[index]<0 ):
-            if trainy[index]>0:
-                error =2
-            if trainy[index]<0:
-                error =-2
-            weight=weight+error*index_x
-        if index ==7:
-            print(weight)
-            plt.plot(graphx, f(graphx), c="red")
-
-
 
 # for update_times in range(8):
 #     for error_index in range(8):
@@ -42,18 +28,18 @@ for update_times in range(20):
 #         if error_index==7:
 #             plt.plot(graphx,f(graphx), c="red")
 
-# error_index=0
-# weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
-# plt.plot(graphx,f(graphx), c="red", label="LINE2")
-# error_index=1
-# weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
-# plt.plot(graphx,f(graphx), c="yellow", label="LINE2")
-# error_index=5
-# weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
-# plt.plot(graphx,f(graphx), c="blue", label="LINE2")
-# error_index=6
-# weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
-# plt.plot(graphx,f(graphx), c="olive", label="LINE2")
+error_index=0
+weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
+plt.plot(graphx,f(graphx), c="red", label="LINE2")
+error_index=1
+weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
+plt.plot(graphx,f(graphx), c="yellow", label="LINE2")
+error_index=7
+weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
+plt.plot(graphx,f(graphx), c="blue", label="LINE2")
+error_index=6
+weight=weight+trainy[error_index]*learning_rate*(np.dot(trainx[error_index],weight))
+plt.plot(graphx,f(graphx), c="olive", label="LINE2")
 
 plt.xlim(0, 1.1)
 plt.ylim(0, 1.1)
