@@ -30,6 +30,7 @@ def training(trainx,trainy,weight,learningrate,epoch):
             print(i + 1)
             # print('jumppass{}'.format(passnum))
             break
+
         passnum = 0
     return weight_list
 
