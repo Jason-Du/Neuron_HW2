@@ -43,7 +43,7 @@ if __name__ == '__main__':
     y=trainx[:,1]
     weight=np.array([1,-1,0.2])
     weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
-
+    print(weight_list)
     f = lambda x: (weight[0]/-weight[1])*x-(weight[2]/weight[1])
     # print(len(weight_list))
     graphx = np.array([-100, 100])
