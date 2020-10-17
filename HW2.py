@@ -42,8 +42,6 @@ if __name__ == '__main__':
     x=trainx[:,0]
     y=trainx[:,1]
     weight=np.array([1,-1,0.2])
-    # weight = np.array([-1, -1, 1.2])
-
     weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
 
     f = lambda x: (weight[0]/-weight[1])*x-(weight[2]/weight[1])
