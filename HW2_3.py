@@ -13,8 +13,7 @@ if __name__ == '__main__':
     weight=np.array([1,-2,0.5])
     update_list=[weight]
     for singlex,singley in zip(x,y):
-        print(singlex)
-        print(singley)
-        print(update_list[-1])
         update_list.append(weight_update(weight=update_list[-1],trainx=singlex,trainy=singley))
-        print(update_list[-1])
+
+    for index,single_weight in enumerate(update_list):
+        print('cycle:{}\n{}'.format(index,single_weight))

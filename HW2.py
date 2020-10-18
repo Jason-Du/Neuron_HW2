@@ -82,17 +82,22 @@ if __name__ == '__main__':
     weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
     weight_list2=training2(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
     max_index=find_best_line(weight=weight_list2,trainx=trainx,trainy=trainy)
-    print(max_index)
     f = lambda x: (weight[0]/-weight[1])*x-(weight[2]/weight[1])
-    print(len(weight_list))
-    print(len(weight_list2))
     plt.figure(1)
     graphx = np.array([-100, 100])
-    plt.plot(graphx, f(graphx), c="red", label='Initial')
-    weight = weight_list[1]
-    plt.plot(graphx, f(graphx), c="green", label='line2')
-    weight=weight_list[-1]
-    plt.plot(graphx,f(graphx), c="orange", label='lastline')
+    for weight_index, single_weight in enumerate(weight_list):
+        if weight_index==0:
+            weight=single_weight
+            plt.plot(graphx, f(graphx), c="red", label='Initial')
+        elif weight_index==1:
+            weight = single_weight
+            plt.plot(graphx, f(graphx), c="green", label='line2')
+        elif weight_index == len(weight_list)-1:
+            weight=single_weight
+            plt.plot(graphx,f(graphx), c="orange", label='lastline update times {}'.format(len(weight_list)))
+        else:
+            weight = single_weight
+            plt.plot(graphx, f(graphx), c="blue")
 
     plt.legend()
     plt.scatter(x, y, alpha=0.6, label = 'data',s=10, marker='o')

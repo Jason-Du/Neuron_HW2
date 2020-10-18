@@ -9,16 +9,16 @@ def training(pattern,weight):
     pass
     weight_list=[weight]
     newweight = copy.deepcopy(weight)
+    for i in range(2):
+        for single_pattern in pattern:
 
-    for single_pattern in pattern:
+            compete_result=np.dot(single_pattern,np.transpose(newweight))
+            max_index=int(np.where(compete_result== np.max(compete_result, axis=0))[0][0])
+            newweight[max_index]=weight_update(new_weight=newweight[max_index],trainx=single_pattern)
+            storeweight=copy.deepcopy(newweight)
+            weight_list.append(storeweight)
 
-        compete_result=np.dot(single_pattern,np.transpose(newweight))
-        max_index=int(np.where(compete_result== np.max(compete_result, axis=0))[0][0])
-        newweight[max_index]=weight_update(new_weight=newweight[max_index],trainx=single_pattern)
-        storeweight=copy.deepcopy(newweight)
-        weight_list.append(storeweight)
-
-        pass
+            pass
     return weight_list
 
 
@@ -28,5 +28,6 @@ if __name__ == '__main__':
     print(weight)
     weight_list=training(pattern=pattern,weight=weight)
     print(weight_list)
-    # for single_weight in weight_list:
-    #     print(single_weight)
+    for index,single_weight in enumerate(weight_list):
+        print('update times:{}'.format(index))
+        print(single_weight)
