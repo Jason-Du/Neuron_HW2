@@ -38,7 +38,6 @@ def training(trainx,trainy,weight,learningrate,epoch):
     return weight_list
 def training2(trainx,trainy,weight,learningrate,epoch):
     weight_list=[weight]
-    passnum=0
     for i in range(epoch):
         passnum = 0
         per = np.random.permutation(trainx.shape[0])
@@ -57,19 +56,22 @@ def training2(trainx,trainy,weight,learningrate,epoch):
             if (  sign(np.dot(copy_weight,copy_single_trainx) )!=sign(single_trainy)):
                 weight_list.append(
                 weight_update2(weight=weight_list[-1],trainy=single_trainy,learningrate=learningrate,trainx=single_trainx)   )
-
                 break
-            else:
-                passnum+=1
         if passnum==8:
             print(i + 1)
             # print('jumppass{}'.format(passnum))
             break
-
-        passnum = 0
     return weight_list
+def find_best_line(weight,trainx,trainy):
 
-
+    passnum_list=[]
+    for single_weight in weight:
+        passnum = 0
+        for single_trainx, single_trainy in zip(trainx, trainy):
+            if (  sign(np.dot(single_trainx,single_weight) )==sign(single_trainy)):
+                passnum=passnum+1
+        passnum_list.append(passnum)
+    return passnum_list.index(max(passnum_list))
 
 if __name__ == '__main__':
     trainx=np.array([[0.08,0.72,1],[0.26,0.58,1],[0.45,0.15,1],[0.60,0.30,1],[0.1,1,1],[0.35,0.95,1],[0.70,0.65,1],[0.92,0.45,1]])
@@ -79,6 +81,8 @@ if __name__ == '__main__':
     weight=np.array([1,-1,0.2])
     weight_list=training(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
     weight_list2=training2(trainx=trainx,trainy=trainy,weight=weight,learningrate=0.8,epoch=30)
+    max_index=find_best_line(weight=weight_list2,trainx=trainx,trainy=trainy)
+    print(max_index)
     f = lambda x: (weight[0]/-weight[1])*x-(weight[2]/weight[1])
     print(len(weight_list))
     print(len(weight_list2))
@@ -98,13 +102,14 @@ if __name__ == '__main__':
     for weight_index,single_weight in enumerate(weight_list2):
         pass
         weight=single_weight
-        if weight_index == len(weight_list) -1:
-            plt.plot(graphx,f(graphx), c="orange", label='lastline')
-
         if weight_index == 0:
             plt.plot(graphx, f(graphx), c="red", label='Initial')
+            continue
+        elif weight_index == max_index:
+            plt.plot(graphx, f(graphx), c="orange", label='Line{}best'.format(weight_index+1))
+            continue
         else:
-            plt.plot(graphx, f(graphx), c="green", label='line'+str(weight_index))
+            plt.plot(graphx, f(graphx), c="green")
 
 
     plt.legend()
