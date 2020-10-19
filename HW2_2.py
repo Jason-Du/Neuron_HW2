@@ -3,7 +3,7 @@ import cmath
 import os
 import copy
 def weight_update(new_weight,trainx):
-    upadte_weight = 0.5*(trainx-new_weight)
+    upadte_weight = new_weight+(0.5*(trainx-new_weight))
     return upadte_weight
 def training(pattern,weight):
     pass
